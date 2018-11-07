@@ -4,27 +4,32 @@
  * See LICENSE file for further information.
  */
 
-package com.cloudera.datascience.recommender
+package bdfi.lab.recommenderproject
+
+
+import org.apache.spark.broadcast.Broadcast
+import org.apache.spark.ml.recommendation.{ALS, ALSModel}
+import org.apache.spark.sql.functions._
+import org.apache.spark.sql.{DataFrame, Dataset, SparkSession}
 
 import scala.collection.Map
 import scala.collection.mutable.ArrayBuffer
 import scala.util.Random
-import org.apache.spark.broadcast.Broadcast
-import org.apache.spark.ml.recommendation.{ALS, ALSModel}
-import org.apache.spark.sql.{DataFrame, Dataset, SparkSession}
-import org.apache.spark.sql.functions._
+
 
 object RunRecommender {
 
   def main(args: Array[String]): Unit = {
-    val spark = SparkSession.builder().getOrCreate()
+
+    val spark = SparkSession.builder().appName("Recommender").getOrCreate()
     // Optional, but may help avoid errors due to long lineage
     // spark.sparkContext.setCheckpointDir("/home/bdfi/context") //"hdfs:///tmp/")
 
-    val base = "/home/bdfi/aas/ch03-recommender/profiledata_06-May-2005/" //"hdfs:///user/ds/"
+    val base = "/home/miguel/Documents/UPM/BDFI/PracticaRecomendador/dataset/" //"hdfs:///user/ds/"
     val rawUserArtistData = spark.read.textFile(base + "user_artist_data.txt")
     val rawArtistData = spark.read.textFile(base + "artist_data.txt")
     val rawArtistAlias = spark.read.textFile(base + "artist_alias.txt")
+    println("Enter a userID:")
     val inputStr = scala.io.StdIn.readLine()
     println("Recommending for user " + inputStr)
     val input = inputStr.toInt

@@ -4,7 +4,7 @@
 		module="recommender_2.11"
 		revision="2.0.0"
 		status="integration"
-		publication="20181107190510"
+		publication="20181107205825"
 	>
 		<description>
 		Recommender
