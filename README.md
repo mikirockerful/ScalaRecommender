@@ -27,5 +27,5 @@ Where "scalarecommender" is the tag that will identify the container.
 # Run a container against a local Spark master
 This assumes you have a docker image called "scalarecommender" created from a Dockerfile in this repo
 ```
-sudo docker run scalarecommender /root/spark-2.1.3-bin-hadoop2.7/bin/spark-submit /ScalaRecommender/target/scala-2.11/recommender_2.11-2.0.0.ja
+sudo docker run scalarecommender spark-submit /ScalaRecommender/target/scala-2.11/recommender_2.11-2.0.0.jar
 ```
