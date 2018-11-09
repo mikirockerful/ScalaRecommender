@@ -24,8 +24,10 @@ sudo docker build -t scalarecommender .
 ```
 Where "scalarecommender" is the tag that will identify the container.
 
-# Run a container against a local Spark master
-This assumes you have a docker image called "scalarecommender" created from a Dockerfile in this repo
+# Run the built application
+The application requires two parameters to run:
+* The directory of the host machine where the dataset is located, which will be bound to a directory in the container
+* The URL of the Spark master. Note that "local" here would be inside the container, so it is not a valid parameter.
 ```
-sudo docker run scalarecommender spark-submit /ScalaRecommender/target/scala-2.11/recommender_2.11-2.0.0.jar
+sudo docker run -it --mount type=bind,src=<DATASET-DIRECTORY>,dst=/root/recoDataset scalarecommender spark-submit --master <SPARK-MASTER-URL> /ScalaRecommender/target/scala-2.11/recommender_2.11-2.0.0.jar
 ```
