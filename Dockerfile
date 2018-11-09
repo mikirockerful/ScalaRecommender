@@ -24,6 +24,9 @@ RUN curl http://apache.rediris.es/spark/spark-2.1.3/spark-2.1.3-bin-hadoop2.7.tg
 
 ENV PATH "$PATH:/root/spark-2.1.3-bin-hadoop2.7/bin"
 
+# Create a path for the dataset
+RUN mkdir /root/recoDataset
+
 #Package our application
 RUN sbt package
 
