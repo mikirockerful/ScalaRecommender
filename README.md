@@ -25,6 +25,6 @@ The Spark master will be accessible through its web UI (http://localhost:8080), 
 
 2 To run the application more times, after the compose is up:
 ```
-docker exec -it master_master_1 spark-submit --master spark://localhost:7077 /ScalaRecommender/target/scala-2.11/recommender_2.11-2.0.0.jar
+docker exec -it scalarecommender_master_1 spark-submit --master spark://master:7077 /ScalaRecommender/target/scala-2.11/recommender_2.11-2.0.0.jar
 ```
 
