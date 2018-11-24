@@ -37,4 +37,5 @@ rm -r ./master/datasetFiles
 rm -r ./worker/datasetFiles
 # Run it in background
 docker-compose up -d --scale worker=$workersNumber
+# Execute the recommender
 docker exec -it scalarecommender_master_1 spark-submit --master spark://master:7077 /ScalaRecommender/target/scala-2.11/recommender_2.11-2.0.0.jar

@@ -35,7 +35,7 @@ sudo docker run -it --mount type=bind,src=<DATASET-DIRECTORY>,dst=/root/recoData
 # How to run as a spark cluster
 
 1 Run "prepareAndRun.sh" to download the dataset, build the compose with the individual containers, and submit the application to the Spark cluster.
-It takes one optional argument to set the number of spark workers. For example, to run the compose with the master en 3 workers, run:
+It takes one optional argument to set the number of spark workers. For example, to run the compose with the master and 3 workers, run:
 ```
 prepareAndRun.sh 3
 ```
