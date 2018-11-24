@@ -1,4 +1,23 @@
 #!/bin/bash
+
+#Number of workers to deploy
+workersNumber=1
+
+if [ $# -eq 1 ]; then
+	if [ $1 -eq 0 ]; then
+		echo "0 is not a valid number" >&2; exit 1
+	else
+        re='^[0-9]+$'
+		if ! [[ $1 =~ $re ]] ; then
+   			echo "Argument is not a valid number" >&2; exit 1
+   		else 
+   			workersNumber=$1
+		fi
+	fi
+elif [ $# -gt 1 ]; then
+	echo "Too many arguments" >&2; exit 1
+fi
+
 # Download the dataset
 curl https://storage.googleapis.com/aas-data-sets/profiledata_06-May-2005.tar.gz --output "profiledata_06-May-2005.tar.gz"
 # Uncompress
@@ -17,5 +36,5 @@ rm -r datasetFiles
 rm -r ./master/datasetFiles
 rm -r ./worker/datasetFiles
 # Run it in background
-docker-compose up -d
+docker-compose up -d --scale worker=$workersNumber
 docker exec -it scalarecommender_master_1 spark-submit --master spark://master:7077 /ScalaRecommender/target/scala-2.11/recommender_2.11-2.0.0.jar

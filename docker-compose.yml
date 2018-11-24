@@ -1,5 +1,6 @@
 master:
   build: ./master
+  container_name: scalarecommender_master_1
   command: spark-class org.apache.spark.deploy.master.Master -h master
   hostname: master
   environment:
@@ -12,7 +13,7 @@ master:
     - 7077:7077
     - 8080:8080
 
-worker1:
+worker:
   build: ./worker
   command: spark-class org.apache.spark.deploy.worker.Worker spark://master:7077
   hostname: worker1
@@ -26,26 +27,5 @@ worker1:
     - master
   expose:
     - 8881
-    - 8081
   ports:
-    - 8081:8081
-    - 8881:8881
-
-worker2:
-  build: ./worker
-  command: spark-class org.apache.spark.deploy.worker.Worker spark://master:7077
-  hostname: worker2
-  environment:
-    SPARK_WORKER_CORES: 2
-    SPARK_WORKER_MEMORY: 2g
-    SPARK_WORKER_PORT: 8882
-    SPARK_WORKER_WEBUI_PORT: 8082
-    SPARK_PUBLIC_DNS: localhost
-  links:
-    - master
-  expose:
-    - 8882
-    - 8082
-  ports:
-    - 8082:8082
-    - 8882:8882
+    - "8081"
