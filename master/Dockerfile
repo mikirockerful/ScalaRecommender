@@ -27,11 +27,11 @@ RUN mv ./log4j.properties ~/spark-2.1.3-bin-hadoop2.7/conf/
 
 ENV PATH "$PATH:/root/spark-2.1.3-bin-hadoop2.7/bin"
 
+#  The following 2 instructions are not needed with hdfs
 # Create a path for the dataset
-RUN mkdir /root/recoDataset
-
+#RUN mkdir /root/recoDataset
 # Copy the dataset to the created path
-COPY ./datasetFiles /root/recoDataset
+#COPY ./datasetFiles /root/recoDataset
 
 #Package our application
 RUN sbt package

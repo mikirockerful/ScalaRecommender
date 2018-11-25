@@ -25,11 +25,13 @@ object RunRecommender {
     // Optional, but may help avoid errors due to long lineage
     // spark.sparkContext.setCheckpointDir("/home/bdfi/context") //"hdfs:///tmp/")
 
-    val base = "/root/recoDataset/" //"hdfs:///user/ds/"
+    val base = "hdfs://namenode:8020/datasetFiles/"
+    //val base = "/root/recoDataset/" //"hdfs://namenode:8020/hadoop-data/datasetFiles"
     //val rawUserArtistData = spark.read.textFile(base + "user_artist_data.txt")
     val rawUserArtistData = spark.read.textFile(base + "user_artist_data_10000.txt")
     val rawArtistData = spark.read.textFile(base + "artist_data.txt")
     val rawArtistAlias = spark.read.textFile(base + "artist_alias.txt")
+    println("Reading from" + base);
     println("Enter a userID:")
     val inputStr = scala.io.StdIn.readLine()
     println("Recommending for user " + inputStr)

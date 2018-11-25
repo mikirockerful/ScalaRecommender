@@ -30,12 +30,22 @@ head -n 10000 ./datasetFiles/user_artist_data.txt > ./datasetFiles/user_artist_d
 cp -r datasetFiles ./master && cp -r datasetFiles ./worker
 # Build it
 docker-compose build
+# Run it in background
+docker-compose up -d --scale worker=$workersNumber
+# Wait 10 seconds - namenode needs some time to start running
+echo "Waiting for 10 seconds..."
+sleep 10
+# Copy the directory with dataset files from host to cointainer
+docker cp ./datasetFiles/ namenode:/
+# Copy from container's local fs to HDFS
+docker exec namenode hadoop fs -copyFromLocal /datasetFiles /
+# Remove datasetFiles from container's local fs
+#docker exec namenode rm -r /datasetFiles
 # Remove the datasetFiles
 rm profiledata_06-May-2005.tar.gz
 rm -r datasetFiles
-rm -r ./master/datasetFiles
-rm -r ./worker/datasetFiles
-# Run it in background
-docker-compose up -d --scale worker=$workersNumber
+# These 2 commands are not needed when working with hdfs
+#rm -r ./master/datasetFiles
+#rm -r ./worker/datasetFiles
 # Execute the recommender
 docker exec -it scalarecommender_master_1 spark-submit --master spark://master:7077 /ScalaRecommender/target/scala-2.11/recommender_2.11-2.0.0.jar
