@@ -1,8 +1,8 @@
 version: '2' 
 services:
   master:
-    image: chookly/bdfi:master
-    container_name: master
+    build: ./master
+    container_name: scalarecommender_master_1
     command: spark-class org.apache.spark.deploy.master.Master -h master
     environment:
       MASTER: spark://master:7077
@@ -15,7 +15,7 @@ services:
       - 8080:8080
 
   worker:
-    image: chookly/bdfi:worker
+    build: ./worker
     command: spark-class org.apache.spark.deploy.worker.Worker spark://master:7077
     hostname: worker
     environment:

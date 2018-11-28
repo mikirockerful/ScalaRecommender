@@ -31,3 +31,32 @@ The Spark master will be accessible through its web UI (http://localhost:8080), 
 ```
 docker exec -it scalarecommender_master_1 spark-submit --master spark://master:7077 /ScalaRecommender/target/scala-2.11/recommender_2.11-2.0.0.jar
 ```
+
+# Run it with Kubernetes
+
+1 Start minikube (local) with:
+```
+minikube start
+```
+
+2 Run
+```
+runWithK8s.sh
+```
+
+3 To get the status of the cluster pods, run:
+```
+kubectl get pods
+```
+
+[TO CONTINUE]
+
+
+# Additional information
+
+1 To clean ALL containers and images, just run:
+```
+clean.sh
+```
+
+2 To run the version with docker-compose, but without Kubernetes, just run the "[noKub]docker-compose.yml" compose, instead of the "docker-compose.yml" one.
