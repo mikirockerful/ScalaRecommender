@@ -46,25 +46,46 @@ docker exec -it scalarecommender_master_1 spark-submit --master spark://master:7
 minikube start
 ```
 
-2 Go to ./kubernetes directory
-
-3 Run
+2 Run
 ```
-runWithK8s.sh
+kubectl create -f spark-cluster-kubernetes.yaml
 ```
+It takes a long time to get running
 
-4 To get the status of the cluster pods, run:
+3 To get the status of the cluster pods, run:
 ```
 kubectl get pods
 ```
-  Open the dashboard with
+The desired state should be something like this:
+```
+NAME                              READY   STATUS    RESTARTS   AGE
+spark-master-controller-hrmz5     1/1     Running   0          1h
+spark-ui-proxy-controller-mxqvb   1/1     Running   4          58m
+spark-worker-controller-44qtn     1/1     Running   0          49m
+spark-worker-controller-k6x8m     1/1     Running   0          49m
+zeppelin-controller-gtgbz         1/1     Running   0          48m
+```
+
+We can also check the dashboard with
 ```
 minikube dashboard
 ```
 
-
-
-[TO CONTINUE]
+4 At this point, we can use the ZeppelinUI to launch jobs on the Spark cluster
+We copy the executable to the container:
+```
+kubectl cp recommender_command_line.jar zeppelin-controller-gtgbz:/recommender_command_line.jar
+```
+Then, the dataset (they are not in the project, they should be downloaded):
+```
+kubectl cp datasetFiles/ zeppelin-controller-gtgbz:datasetFiles
+```
+And finally, we should be able to run the job in Spark, using the spark shell from the zeppelin-controller:
+```
+kubectl exec -it zeppelin-controller-gtgbz /bin/bash
+```
+### Reference:
+https://github.com/kubernetes/examples/tree/master/staging/spark
 
 
 # Additional information
