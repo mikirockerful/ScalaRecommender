@@ -1,7 +1,8 @@
 version: '2' 
 services:
   master:
-    build: ./master
+    #build: ./master
+    image: mikirockerful/scalarecommender:master
     container_name: scalarecommender_master_1
     command: spark-class org.apache.spark.deploy.master.Master -h master
     environment:
@@ -15,7 +16,8 @@ services:
       - 8080:8080
 
   worker:
-    build: ./worker
+    #build: ./worker
+    image: mikirockerful/scalarecommender:worker
     command: spark-class org.apache.spark.deploy.worker.Worker spark://master:7077
     hostname: worker
     environment:
