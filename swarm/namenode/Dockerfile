@@ -1,0 +1,19 @@
+# From: https://github.com/big-data-europe/docker-hadoop/blob/master/datanode/Dockerfile
+FROM bde2020/hadoop-base:1.1.0-hadoop2.7.1-java8
+MAINTAINER Ivan Ermilov <ivan.s.ermilov@gmail.com>
+
+HEALTHCHECK CMD curl -f http://localhost:50070/ || exit 1
+
+ENV HDFS_CONF_dfs_namenode_name_dir=file:///hadoop/dfs/name
+RUN mkdir -p /hadoop/dfs/name
+VOLUME /hadoop/dfs/name
+
+ADD run.sh /run.sh
+RUN chmod a+x /run.sh
+
+COPY ./datasetFiles/ /datasetFiles
+
+EXPOSE 50070
+EXPOSE 8020
+
+CMD ["/run.sh"]

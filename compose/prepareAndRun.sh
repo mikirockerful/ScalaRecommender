@@ -26,8 +26,9 @@ tar -xvzf profiledata_06-May-2005.tar.gz
 mv profiledata_06-May-2005 datasetFiles
 # Take only the first 10000 records
 head -n 10000 ./datasetFiles/user_artist_data.txt > ./datasetFiles/user_artist_data_10000.txt
+## The following command is not needed wit HDFS
 # Copy the dataset files to Dockerfiles' context
-cp -r datasetFiles ./master && cp -r datasetFiles ./worker
+#cp -r datasetFiles ./master && cp -r datasetFiles ./worker
 # Build it
 docker-compose build
 # Run it in background
@@ -44,7 +45,7 @@ docker exec namenode hadoop fs -copyFromLocal /datasetFiles /
 # Remove the datasetFiles
 rm profiledata_06-May-2005.tar.gz
 rm -r datasetFiles
-# These 2 commands are not needed when working with hdfs
+## These 2 commands are not needed when working with hdfs
 #rm -r ./master/datasetFiles
 #rm -r ./worker/datasetFiles
 # Execute the recommender

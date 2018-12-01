@@ -1,21 +1,22 @@
 version: '3' 
 services:
   master:
-    build: ./master
-    container_name: scalarecommender_master_1
+    image: chookly/bdfi:spark-master
+#    networks: 
+#      - testnet
     command: spark-class org.apache.spark.deploy.master.Master -h master
+    hostname: master
     environment:
       MASTER: spark://master:7077
-      SPARK_PUBLIC_DNS: localhost
-    expose:
-      - 7077
-      - 8080
+      SPARK_PUBLIC_DNS: ${EXTERNAL_IP}
     ports:
       - 7077:7077
       - 8080:8080
 
   worker:
-    build: ./worker
+    image: chookly/bdfi:spark-worker
+#    networks: 
+#      - testnet
     command: spark-class org.apache.spark.deploy.worker.Worker spark://master:7077
     hostname: worker
     environment:
@@ -23,17 +24,16 @@ services:
       SPARK_WORKER_MEMORY: 2g
       SPARK_WORKER_PORT: 8881
       SPARK_WORKER_WEBUI_PORT: 8081
-      SPARK_PUBLIC_DNS: localhost
-    links:
-      - master
-    expose:
-      - 8881
+      SPARK_PUBLIC_DNS: ${EXTERNAL_IP}
     ports:
-      - "8081"
+      - 8081:8081
 
   namenode:
-    image: bde2020/hadoop-namenode:1.1.0-hadoop2.8-java8
-    container_name: namenode
+    image: chookly/bdfi:namenode
+#    networks: 
+#      - testnet
+    #command: hadoop fs -copyFromLocal /datasetFiles /
+    hostname: namenode
     environment:
       - CLUSTER_NAME=test
     env_file:
@@ -43,6 +43,9 @@ services:
 
   datanode:
     image: bde2020/hadoop-datanode:1.1.0-hadoop2.8-java8
+#    networks: 
+#      - testnet
+    hostname: datanode
     depends_on: 
       - namenode
     env_file:
