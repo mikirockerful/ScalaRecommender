@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: hdfs-data
+spec:
+  accessModes:
+    - ReadWriteOnce
+  capacity:
+    storage: 3Gi
+  storageClassName: standard
+  hostPath:
+    path: /mnt/data/
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: hdfs-data
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1.5Gi

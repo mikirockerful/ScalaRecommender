@@ -1,0 +1,34 @@
+kind: Pod
+apiVersion: v1
+metadata:
+  name: namenode
+spec:
+  volumes:
+    - name: hdfs-data
+      persistentVolumeClaim:
+       claimName: hdfs-data
+  containers:
+    - name: namenode
+      env:
+        - name: CLUSTER_NAME
+          value: test
+        - name: CORE_CONF_fs_defaultFS
+          value: hdfs://namenode:8020
+        - name: CORE_CONF_hadoop_http_staticuser_user
+          value: root
+        - name: CORE_CONF_hadoop_proxyuser_hue_groups
+          value: '*'
+        - name: CORE_CONF_hadoop_proxyuser_hue_hosts
+          value: '*'
+        - name: HDFS_CONF_dfs_permissions_enabled
+          value: "false"
+        - name: HDFS_CONF_dfs_webhdfs_enabled
+          value: "true"
+      image: bde2020/hadoop-namenode:1.1.0-hadoop2.8-java8
+      ports:
+        - containerPort: 50070
+          name: "web-ui"
+      volumeMounts:
+        - mountPath: "/hadoop/dfs/data"
+          name: hdfs-data
+      resources: {}
