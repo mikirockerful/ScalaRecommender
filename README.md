@@ -1,70 +1,21 @@
 # ScalaRecommender
 Music recommender system built for university course on Big Data infrastructure
 
-# Build & run locally
-1 Change the value of "base" variable in RunRecommender.main() to point to your data location
+# Run in docker swarm
 
-2 Package your application:
-```
- sbt package
-```
-3 Run Spark shell:
-```
- <spark-2.1.3-base>/bin/spark-shell 
-```
-4 Submit the job to the locally running Spark
-```
-<spark-2.1.3-base>/bin/spark-submit --class bdfi.lab.recommenderproject.RunRecommender --master local <project-base-directory>/target/scala-2.11/recommender_2.11-2.0.0.jar
-```
+1 Run "prepare.sh"
 
-# How to run as a spark cluster using HDFS
+2 Wait until every replica service is up and running. To check their status run docker-machine ssh manager "docker service ls"
 
-1 Go to ./compose directory
+3 Run "start.sh"
 
-2 Run "prepareAndRun.sh" to download the dataset, build the compose with the individual containers, load dataset files to hdfs and submit the application to the Spark cluster. It takes one optional argument to set the number of spark workers. For example, to run the compose with the master and 3 workers, run:
-```
-prepareAndRun.sh 3
-```
-The default number of workers is 1.
+# Known issues
 
-The Spark master will be accessible through its web UI (http://localhost:8080), as well as Spark workers and both HDFS namenode (http://localhost:50070) and datanode (http://localhost:50075).
-
-3 To run the application more times, after the compose is up:
-```
-docker exec -it scalarecommender_master_1 spark-submit --master spark://master:7077 /ScalaRecommender/target/scala-2.11/recommender_2.11-2.0.0.jar
-```
-
-# Run it with Kubernetes
-
-1 Start minikube (local) with:
-```
-minikube start
-```
-
-2 Go to ./kubernetes directory
-
-3 Run
-```
-runWithK8s.sh
-```
-
-4 To get the status of the cluster pods, run:
-```
-kubectl get pods
-```
-  Open the dashboard with
-```
-minikube dashboard
-```
-
-
-
-[TO CONTINUE]
-
+1 hdfs nodes don't have visibility: ping is working but telnet to ports is not, so it's probably a port mapping issue
 
 # Additional information
 
-1 To clean ALL containers and images, just run:
+1 To clean ALL containers, images and docker-machines, just run:
 ```
 clean.sh
 ```
