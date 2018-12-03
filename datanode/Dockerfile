@@ -10,6 +10,9 @@ VOLUME /hadoop/dfs/data
 ADD run.sh /run.sh
 RUN chmod a+x /run.sh
 
+COPY ./hdfs-site.xml /
+RUN mv /hdfs-site.xml /etc/hadoop/
+
 EXPOSE 50075
 
 CMD ["/run.sh"]

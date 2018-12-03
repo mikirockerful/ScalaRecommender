@@ -1,5 +1,6 @@
 #!/bin/bash
 
+eval $(docker-machine env manager)
 # Leave docker swarm 
 docker swarm leave --force
 # Remove docker-machines

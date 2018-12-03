@@ -13,4 +13,7 @@ RUN chmod a+x /run.sh
 
 COPY ./datasetFiles/ /datasetFiles
 
+COPY ./hdfs-site.xml /
+RUN mv /hdfs-site.xml /etc/hadoop/
+
 CMD ["/run.sh"]

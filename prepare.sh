@@ -52,6 +52,6 @@ docker stack deploy --with-registry-auth -c docker-compose.yml scalaRecommender
 #echo "[INFO] Stack already deployed, waiting 30 seconds..."
 
 # Scale the number of workers
-eval $(docker-machine env manager) 
-echo "[INFO] Scaling the number of spark workers to $workersNumber..."
-docker service scale scalaRecommender_worker=$workersNumber
+#eval $(docker-machine env manager) 
+#echo "[INFO] Scaling the number of spark workers to $workersNumber..."
+#docker service scale scalaRecommender_worker=$workersNumber
