@@ -32,11 +32,8 @@ We can also check the dashboard with
 minikube dashboard
 ```
 
+
 4 The images already contain the data in a common path. We can use lanzador to submit the job (it has the JAR)
-```
-kubectl exec -it lanzador-mxqvb /bin/bash
-```
-From the console, we can submit the application in client mode:
 ```
 /usr/spark-2.2.0/bin/spark-submit --class bdfi.lab.recommenderproject.RunRecommender --master spark://$MAESTRO_PORT_7077_TCP_ADDR:7077 recommender_command_line.jar datasetFiles/
 ```
