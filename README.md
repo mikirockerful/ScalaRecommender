@@ -48,9 +48,9 @@ minikube start
 
 2 Run
 ```
-kubectl create -f spark-cluster-kubernetes.yaml
+kubectl create -f kubernetes.yaml
 ```
-It takes a long time to get running
+
 
 3 To get the status of the cluster pods, run:
 ```
@@ -59,11 +59,9 @@ kubectl get pods
 The desired state should be something like this:
 ```
 NAME                              READY   STATUS    RESTARTS   AGE
-spark-master-controller-hrmz5     1/1     Running   0          1h
-spark-ui-proxy-controller-mxqvb   1/1     Running   4          58m
-spark-worker-controller-44qtn     1/1     Running   0          49m
-spark-worker-controller-k6x8m     1/1     Running   0          49m
-zeppelin-controller-gtgbz         1/1     Running   0          48m
+maestro-hrmz5     				  1/1     Running   0          1h
+lanzador-mxqvb                    1/1     Running   4          58m
+currito-44qtn                     1/1     Running   0          49m
 ```
 
 We can also check the dashboard with
@@ -71,22 +69,29 @@ We can also check the dashboard with
 minikube dashboard
 ```
 
-4 At this point, we can use the ZeppelinUI to launch jobs on the Spark cluster
+4 At this point, we can lanzador to launch jobs on the Spark cluster
 We copy the executable to the container:
 ```
-kubectl cp recommender_command_line.jar zeppelin-controller-gtgbz:/recommender_command_line.jar
+kubectl cp recommender_command_line.jar lanzador-mxqvb:/recommender_command_line.jar
 ```
-Then, the dataset (they are not in the project, they should be downloaded):
+Then, the dataset (requires download):
 ```
-kubectl cp datasetFiles/ zeppelin-controller-gtgbz:datasetFiles
+kubectl cp datasetFiles/ lanzador-mxqvb:datasetFiles
 ```
-And finally, we should be able to run the job in Spark, using the spark shell from the zeppelin-controller:
+And finally, we should be able to run the job in Spark, using the spark shell from lanzador:
 ```
-kubectl exec -it zeppelin-controller-gtgbz /bin/bash
+kubectl exec -it lanzador-mxqvb /bin/bash
 ```
-### Reference:
-https://github.com/kubernetes/examples/tree/master/staging/spark
+From the console, we can submit the application in client mode:
+```
+/usr/spark-2.3.1/bin/spark-submit --class bdfi.lab.recommenderproject.RunRecommender --master spark://$MAESTRO_PORT_7077_TCP_ADDR:7077 --config spark.sql.crossJoin.enabled=true recommender_command_line.jar datasetFiles/
+```
 
+To check Spark web consoles, we need to create a proxy or port forwarding to our Kubernetes network:
+```
+kubectl port-forward maestro-hrmz5 8080:8080
+```
+Which makes the UI accessible through: http://localhost:8080
 
 # Additional information
 
