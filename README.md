@@ -72,7 +72,7 @@ minikube dashboard
 4 At this point, we can lanzador to launch jobs on the Spark cluster
 We copy the executable to the container:
 ```
-kubectl cp recommender_command_line.jar lanzador-mxqvb:/recommender_command_line.jar
+kubectl cp recommender_command_line.jar lanzador-mxqvb:recommender_command_line.jar
 ```
 Then, the dataset (requires download):
 ```
@@ -84,7 +84,7 @@ kubectl exec -it lanzador-mxqvb /bin/bash
 ```
 From the console, we can submit the application in client mode:
 ```
-/usr/spark-2.3.1/bin/spark-submit --class bdfi.lab.recommenderproject.RunRecommender --master spark://$MAESTRO_PORT_7077_TCP_ADDR:7077 --config spark.sql.crossJoin.enabled=true recommender_command_line.jar datasetFiles/
+/usr/spark-2.3.1/bin/spark-submit --class bdfi.lab.recommenderproject.RunRecommender --master spark://$MAESTRO_PORT_7077_TCP_ADDR:7077 --conf spark.sql.crossJoin.enabled=true recommender_command_line.jar datasetFiles/
 ```
 
 To check Spark web consoles, we need to create a proxy or port forwarding to our Kubernetes network:
