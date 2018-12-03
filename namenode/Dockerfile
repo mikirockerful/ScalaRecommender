@@ -13,7 +13,4 @@ RUN chmod a+x /run.sh
 
 COPY ./datasetFiles/ /datasetFiles
 
-EXPOSE 50070
-EXPOSE 8020
-
 CMD ["/run.sh"]

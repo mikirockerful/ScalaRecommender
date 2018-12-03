@@ -25,7 +25,7 @@ object RunRecommender {
     // Optional, but may help avoid errors due to long lineage
     // spark.sparkContext.setCheckpointDir("/home/bdfi/context") //"hdfs:///tmp/")
 
-    val base = "hdfs://namenode:8020/datasetFiles/"
+    val base = "hdfs://hdfs-namenode:8020/datasetFiles/"
     //val base = "/root/recoDataset/" //"hdfs://namenode:8020/hadoop-data/datasetFiles"
     //val rawUserArtistData = spark.read.textFile(base + "user_artist_data.txt")
     val rawUserArtistData = spark.read.textFile(base + "user_artist_data_10000.txt")

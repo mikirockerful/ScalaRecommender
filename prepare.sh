@@ -24,25 +24,27 @@ docker-machine create --driver virtualbox manager
 echo "[INFO] Manager created!"
 docker-machine create --driver virtualbox follower1
 echo "[INFO] Follower1 created!"
-docker-machine create --driver virtualbox follower2
-echo "[INFO] Follower2 created!"
+#docker-machine create --driver virtualbox follower2
+#echo "[INFO] Follower2 created!"
 
 # Make "manager" the swarm manager
 docker-machine ssh manager "docker swarm init --advertise-addr $(docker-machine ip manager)"
-docker-machine ssh manager "docker node update --availability drain manager"
+#docker-machine ssh manager "docker node update --availability drain manager"
 echo "[INFO] 'manager' is already the swarm manager."
 echo "[INFO] Creating network..."
-#docker-machine ssh manager "docker network create -d overlay scalaRecommender_testnet"
 
 # Join "follower" to the swarm
 TOKEN=`docker-machine ssh manager docker swarm join-token worker | grep token | awk '{ print $5 }'`
 docker-machine ssh follower1 "docker swarm join --token ${TOKEN} $(docker-machine ip manager):2377"
-docker-machine ssh follower2 "docker swarm join --token ${TOKEN} $(docker-machine ip manager):2377"
+#docker-machine ssh follower2 "docker swarm join --token ${TOKEN} $(docker-machine ip manager):2377"
 echo "[INFO] 'followers are already in the swarm cluster."
 
+# Create the network1
+docker-machine ssh manager "docker network create -d overlay --attachable myNetwork"
 # Configuring the shell to interact directly with the manager's one, without needing to execute "docker-machine ssh manager". These 2 commands depend on the host OS - valid for macOS and Linux
 eval $(docker-machine env manager)
 export EXTERNAL_IP=$(docker-machine ip follower1)
+
 
 # Deploy to swarm
 docker stack deploy --with-registry-auth -c docker-compose.yml scalaRecommender
