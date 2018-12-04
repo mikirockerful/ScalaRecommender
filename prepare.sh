@@ -20,9 +20,9 @@ elif [ $# -gt 1 ]; then
 fi
 
 # Create a couple of VMs for the swarm
-docker-machine create --driver virtualbox manager
+#docker-machine create -d virtualbox --virtualbox-boot2docker-url file://$HOME/dockervbox.iso manager
 echo "[INFO] Manager created!"
-docker-machine create --driver virtualbox follower1
+#docker-machine create -d virtualbox --virtualbox-boot2docker-url file://$HOME/dockervbox.iso follower1
 echo "[INFO] Follower1 created!"
 #docker-machine create --driver virtualbox follower2
 #echo "[INFO] Follower2 created!"

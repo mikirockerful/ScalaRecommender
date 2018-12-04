@@ -19,3 +19,11 @@ ENV PATH "$PATH:/root/spark-2.1.3-bin-hadoop2.7/bin"
 
 #Package our application
 RUN sbt package
+
+# Create a path for the dataset
+RUN mkdir /root/recoDataset
+# Copy the dataset to the created path
+COPY ./datasetFiles /root/recoDataset
+
+#Package our application
+RUN sbt package
