@@ -50,7 +50,7 @@ minikube start
 
 3 Run
 ```
-runWithK8s.sh
+kubectl create -f kubernetes.yaml
 ```
 
 4 To get the status of the cluster pods, run:
